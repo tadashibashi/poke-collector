@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section>
+    {% for poke in pokemon %}
+        <div class="card">
+            <div class="card-content">
+                <h1 class="card-title">{{ poke.name }}</h1>
+                <img alt="profile image for {{ poke.name }}" class="card-image" src="https://www.serebii.net/art/th/{{ poke.no }}.png" />
+                <p><strong>type: </strong>{% for type in poke.types %}{{ type }}{% if not forloop.last %}{{", "}}{% endif %}{% endfor %}</p>
+                <p><strong>height: </strong>{{ poke.height }}</p>
+                <p><strong>weight: </strong> {{ poke.weight_lbs }} lbs.</p>
+                <ul>
+                    <p><strong>moves:</strong></p>
+                    {% for move in poke.moves %}
+                        <li>- {{ move }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+    {% endfor %}
+    </section>
+{% endblock %}
