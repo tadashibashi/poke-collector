@@ -7,6 +7,7 @@ app_name = "main"
 urlpatterns = [
     path("", views.home, name="home"),
     path("about/", views.about, name="about"),
-    path("pokemon/", views.pokemon.index, name="pokemon_index"),
-    path("pokemon/create/", views.pokemon.create, name="pokemon_create")
+    path("pokemon/", views.PokemonList.as_view(), name="pokemon_index"),
+    path("pokemon/create/", views.PokemonCreate.as_view(), name="pokemon_create"),
+    path("pokemon/<int:pk>/", views.PokemonDetail.as_view(), name="pokemon_detail")
 ]

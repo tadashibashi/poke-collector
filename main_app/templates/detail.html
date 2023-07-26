@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <article class="card">
+        <div class="card-content">
+            <h1>{{ pokemon.nickname }}</h1>
+            <img alt="pokemon image" src="https://www.serebii.net/art/th/{{ pokemon.number }}.png">
+            <p><strong>lv. </strong>{{ pokemon.level }}</p>
+            <ul>
+                <p><strong>moves:</strong></p>
+                {% for move in pokemon.moveset %}
+                    <li>- {{ move }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </article>
+
+{% endblock %}

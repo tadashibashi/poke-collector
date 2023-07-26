@@ -1,23 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
-    <section>
-    {% for poke in pokemon %}
-        <div class="card">
-            <div class="card-content">
-                <h1 class="card-title">{{ poke.name }}</h1>
-                <img alt="profile image for {{ poke.name }}" class="card-image" src="https://www.serebii.net/art/th/{{ poke.no }}.png" />
-                <p><strong>type: </strong>{% for type in poke.types %}{{ type }}{% if not forloop.last %}{{", "}}{% endif %}{% endfor %}</p>
-                <p><strong>height: </strong>{{ poke.height }}</p>
-                <p><strong>weight: </strong> {{ poke.weight_lbs }} lbs.</p>
-                <ul>
-                    <p><strong>moves:</strong></p>
-                    {% for move in poke.moves %}
-                        <li>- {{ move }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+    <h1>My Collection</h1>
+    {#  Add New Pokemon Button  #}
+    <a class="btn" href="{% url 'main:pokemon_create' %}">Add Pokémon</a>
 
-        </div>
+    {#  Pokemon list  #}
+    <section>
+    {% for pokemon in pokelist %}
+        <a href="{{pokemon.get_absolute_url}}">
+            <article class="card">
+                <div class="card-content">
+                    <h1>{{ pokemon.nickname }}</h1>
+                    <img alt="pokemon image" src="https://www.serebii.net/art/th/{{ pokemon.number }}.png">
+                    <p><strong>lv. </strong>{{ pokemon.level }}</p>
+                    <ul>
+                        <p><strong>moves:</strong></p>
+                        {% for move in pokemon.moveset %}
+                            <li>- {{ move }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </article>
+        </a>
+
     {% endfor %}
     </section>
 {% endblock %}

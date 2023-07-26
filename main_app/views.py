@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_list_or_404
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.views.generic import CreateView, DetailView, ListView
+
+from .models import Pokemon
 
 
 # Create your views here.
@@ -10,28 +13,21 @@ def home(request):
 def about(request):
     return render(request, "about.html")
 
-poke_db = [
-    {
-        "name": "Pikachu", "no": 25, "types": ["electric"],
-        "moves": ["thundershock", "tackle", "growl"],
-        "height": "1' 4\"", "weight_lbs": 13,
-        "evolves_from": 172, "evolves_to": 26,
-    },
-    {
-        "name": "Charizard", "no": 6, "types": ["fire", "flying"],
-        "moves": ["fire blast", "fire spin", "flamethrower", "seismic toss"],
-        "height": "5' 7\"", "weight_lbs": 200,
-        "evolves_from": 5, "evolves_to": -1,
-    }
-]
+class PokemonDetail(DetailView):
+    model = Pokemon
+    template_name = "detail.html"
 
+class PokemonCreate(CreateView):
+    model = Pokemon
+    fields = "__all__"
+    success_url = "/pokemon/{id}"
+
+class PokemonList(ListView):
+    model = Pokemon
+    context_object_name = "pokelist"
+    template_name = "pokemon/index.html"
 
 class pokemon:
-    @staticmethod
-    def index(request):
-        return render(request, "pokemon/index.html", {"pokemon": poke_db})
-
-
     @staticmethod
     def create(request):
         # do create stuff here
