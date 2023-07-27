@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponseRedirect
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 
+from .forms import PokemonForm
 from .models import Pokemon
 
 
@@ -22,14 +22,22 @@ class PokemonCreate(CreateView):
     fields = "__all__"
     success_url = "/pokemon/{id}"
 
+    def get_form_class(self):
+        return PokemonForm
+
+class PokemonUpdate(UpdateView):
+    model = Pokemon
+    fields = ["nickname", "moveset", "level"]
+    def get_form_class(self):
+        return PokemonForm
+
+
+class PokemonDelete(DeleteView):
+    model = Pokemon
+    success_url = "/pokemon/"
+
+
 class PokemonList(ListView):
     model = Pokemon
     context_object_name = "pokelist"
     template_name = "pokemon/index.html"
-
-class pokemon:
-    @staticmethod
-    def create(request):
-        # do create stuff here
-
-        return HttpResponseRedirect(reverse("main:pokemon_index"))

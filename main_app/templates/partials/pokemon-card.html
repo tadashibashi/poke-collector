@@ -1,0 +1,21 @@
+<article class="card">
+    <div class="card-content">
+        <a href="{{pokemon.get_absolute_url}}">
+            <h1>{{ pokemon.nickname }}</h1>
+            <img alt="pokemon image" src="https://www.serebii.net/art/th/{{ pokemon.number }}.png">
+        </a>
+
+        <p><strong>lv. </strong>{{ pokemon.level }}</p>
+        <ul>
+            <p><strong>moves:</strong></p>
+            {% for move in pokemon.moveset %}
+                <li>- {{ move }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card-action">
+        <a href="{% url 'main:pokemon_update' pokemon.id %}">Edit</a>
+        <a href="{% url 'main:pokemon_delete' pokemon.id %}">Delete</a>
+    </div>
+</article>

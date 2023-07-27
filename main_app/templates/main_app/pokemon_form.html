@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% if object %}
-        <h1>Edit <span class="teal-text">object.nickname</span></h1>
+    {% if pokemon %}
+        <h1>Edit <span class="teal-text">{{pokemon.nickname}}</span></h1>
     {% else %}
         <h1>Add Pokémon</h1>
     {% endif %}
