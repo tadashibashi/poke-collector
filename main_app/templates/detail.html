@@ -1,4 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include 'partials/pokemon-card.html' %}
+    <section class="row">
+        <section class="col s6">
+            {% include 'partials/pokemon-card.html' %}
+        </section>
+        <section class="col s6">
+            <form action="{% url 'main:training_create' pokemon.id %}" method="POST">
+                {% csrf_token %}
+                {{ training_form.as_p }}
+                <input type="submit" value="Add Training" />
+            </form>
+            <div>
+                <div>
+                    {% if pokemon.is_energetic %}
+                        <p class="teal=text">{{ pokemon.nickname }} is ready for some training!</p>
+                    {% else %}
+                        <p class="grey-text">{{ pokemon.nickname }} looks tired.</p>
+                    {% endif %}
+                </div>
+
+                <table>
+                    <thead>
+                        <tr><th>Training</th><th>Exp</th><th>Date</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for session in pokemon.training_set.all %}
+                        <tr>
+                            <td>{{session.activity}}</td>
+                            <td>{{session.exp_points}}</td>
+                            <td>{{session.date}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </section>
+
+    <script>
+        window.addEventListener("load", () => {
+
+        });
+        const dateEl = document.getElementById("id_date");
+        M.Timepicker.init(dateEl, {
+            format: "hh:mm:ss",
+            setDefaultDate: true,
+            autoClose: true,
+        });
+        M.Datepicker.init(dateEl, {
+            format:  "yyyy-mm-dd",
+            defaultDate: new Date(),
+            setDefaultDate: true,
+            autoClose: true,
+        });
+    </script>
 {% endblock %}

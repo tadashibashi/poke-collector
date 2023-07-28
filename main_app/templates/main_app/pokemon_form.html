@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load main_app_extras %}
 {% block content %}
     {% if pokemon %}
         <h1>Edit <span class="teal-text">{{pokemon.nickname}}</span></h1>
@@ -7,9 +8,26 @@
     {% endif %}
     <form action="" method="POST">
         {% csrf_token %}
+        {% if pokemon %}
+            {% with "https://www.serebii.net/art/th/"|concat:pokemon.number|concat:".png" as img_url %}
+                <img id="pokemon-img" alt="pokemon image" src="{{ img_url }}"/>
+            {% endwith %}
+        {% else %}
+            <img id="pokemon-img" alt="pokemon image" src=""/>
+        {% endif %}
         <table>
             {{ form.as_table }}
         </table>
         <input type="submit" value="Submit" />
     </form>
+
+    <script>
+        const imgEl = document.getElementById("pokemon-img");
+        const pokeNumEl = document.getElementById("id_number");
+
+        pokeNumEl.addEventListener("input", evt => {
+            imgEl.src = "https://www.serebii.net/art/th/" + pokeNumEl.value + ".png";
+        });
+
+    </script>
 {% endblock %}
