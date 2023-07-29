@@ -36,22 +36,53 @@
             </div>
         </section>
     </section>
+    <hr />
+    <section class="row">
+        <h2>Contests</h2>
+        <div class="col s6">
+            <h4>Participated in</h4>
+            {% for contest in pokemon.contest_set.all %}
+                <div class="card">
+                    <div class="card-content">
+                        <h5>{{ contest.name }} <span class="teal-text">{% if contest.winner.id == pokemon.id %}: 1st Place{% endif %}</span></h5>
+                        <p>{{ contest.date }}</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="{% url 'main:disassoc_contest' pokemon.id contest.id%}">Remove</a>
 
+                    </div>
+                </div>
+            {% empty %}
+                <p>no contests...</p>
+            {% endfor %}
+        </div>
+        <div class="col s6">
+            <h4>Available</h4>
+            {% for contest in contests_non_participant %}
+                <div class="card">
+                    <div class="card-content">
+                        <h5>{{ contest.name }}</h5>
+                        <p>{{ contest.date }}</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="{% url 'main:assoc_contest' pokemon.id contest.id %}">Add</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p>no contests available...</p>
+            {% endfor %}
+        </div>
+    </section>
     <script>
         window.addEventListener("load", () => {
+            const dateEl = document.getElementById("id_date");
+            M.Datepicker.init(dateEl, {
+                format:  "yyyy-mm-dd",
+                defaultDate: new Date(),
+                setDefaultDate: true,
+                autoClose: true,
+            });
+        });
 
-        });
-        const dateEl = document.getElementById("id_date");
-        M.Timepicker.init(dateEl, {
-            format: "hh:mm:ss",
-            setDefaultDate: true,
-            autoClose: true,
-        });
-        M.Datepicker.init(dateEl, {
-            format:  "yyyy-mm-dd",
-            defaultDate: new Date(),
-            setDefaultDate: true,
-            autoClose: true,
-        });
     </script>
 {% endblock %}

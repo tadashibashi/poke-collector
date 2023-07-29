@@ -24,6 +24,13 @@ class Pokemon(models.Model):
         return len(self.training_set.filter(date=datetime.date.today())) < 3
 
 
+class Contest(models.Model):
+    name = models.CharField(max_length=128, default="no name")
+    pokemon = models.ManyToManyField(Pokemon)
+    winner = models.ForeignKey(Pokemon, on_delete=models.DO_NOTHING, related_name="+")
+    date = models.DateField(default=datetime.date.today)
+
+
 class Training(models.Model):
     activity = models.CharField(max_length=100, default="")
     exp_points = models.IntegerField(default=0)

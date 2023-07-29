@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Contest List</h1>
+    <a class="btn" href="{% url 'main:contest_create' %}">Add Contest</a>
+    {% for contest in contests %}
+        <div class="card">
+            <div class="card-content">
+                <h4>{{ contest.name }}</h4>
+                <p>on {{ contest.date.month }}/{{ contest.date.day }}/{{ contest.date.year }}</p>
+                <p>Winner: <span class="teal-text">{{ contest.winner.nickname }}</span></p>
+                <p>Contestants:</p>
+                <ul>
+                    {% for poke in contest.pokemon.all %}
+                        <li>- {{ poke.nickname }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="card-action">
+                <a href="{% url 'main:contest_update' contest.id %}">Edit</a>
+                <a href="{% url 'main:contest_delete' contest.id %}">Delete</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>No contests to show.</p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if contest %}
+        <h1>Edit Contest</h1>
+    {% else %}
+        <h1>Add Contest</h1>
+    {% endif %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" class="btn" />
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectElems = document.querySelectorAll('select');
+            M.FormSelect.init(selectElems);
+
+            const dateEl = document.getElementById("id_date");
+            M.Datepicker.init(dateEl, {
+                defaultDate: Date(),
+                autoClose: true,
+            });
+
+            const labels = document.querySelectorAll("label");
+            labels.forEach(label => {
+                const checkbox = label.children[0];
+                if (!checkbox || checkbox.getAttribute("type") !== "checkbox") return;
+                checkbox.addEventListener("input", evt => {
+                    if (checkbox.checked)
+                        label.style.color = "teal";
+                    else
+                        label.style.color = "";
+                });
+            });
+        });
+    </script>
+{% endblock %}
